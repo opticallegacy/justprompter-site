@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Just Prompt</title>
+<meta name="description" content="Teleprompter for Mac and Windows. Turn any iPad or tablet into a prompter screen over Wi-Fi, control it from your phone, mirror it for your rig. First 3 scripts free; $39.99 launch price unlocks everything.">
+<meta property="og:title" content="Just Prompt — the teleprompter for your rig">
+<meta property="og:description" content="Write the script on your Mac or PC, put it on the glass, run it from your phone. One purchase, no subscription.">
+<meta property="og:image" content="img/prompter-mirrored.png">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root {
+    --metal: #1a1c1e; --panel: #202326; --well: #0f1112; --etch: #33383c; --edge: #0d0e0f;
+    --fg: #e9ebed; --lbl: #9aa0a5; --amber: #e5a130; --amber-dim: rgba(229,161,48,0.22); --tally: #ff3b30;
+    --paper: #f3efe6; --ink: #1f1c17; --ink2: #625c51; --rule: #ddd6c6;
+    --ui: -apple-system, "SF Pro Text", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+    --serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--metal); color: var(--fg); font: 17px/1.55 var(--ui); -webkit-font-smoothing: antialiased; }
+  a { color: var(--amber); }
+  img, video { max-width: 100%; height: auto; display: block; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .etch { font: 600 11px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--lbl); }
+  .etch.amber { color: var(--amber); }
+  h1, h2, h3 { text-wrap: balance; }
+  h2 { font: 400 clamp(30px, 4vw, 44px)/1.1 var(--serif); margin: 0 0 14px; }
+  p { max-width: 66ch; }
+  .muted { color: var(--lbl); }
+
+  /* keys: the app's physical buttons, reused for calls to action */
+  .key { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 8px; border: 1px solid var(--edge); background: linear-gradient(180deg, #2c3034, #212427); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 1px 0 rgba(0,0,0,0.6); color: var(--fg); font: 600 15px var(--ui); text-decoration: none; white-space: nowrap; }
+  .key:hover { background: linear-gradient(180deg, #33383d, #262a2e); }
+  .key.play { background: linear-gradient(180deg, #f0b24a, #cf8b1c); color: #1f1400; border-color: #6b4708; box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 1px 0 rgba(0,0,0,0.6), 0 0 22px rgba(229,161,48,0.25); }
+  .key.play:hover { background: linear-gradient(180deg, #f5bb58, #d99424); }
+  .key svg { width: 18px; height: 18px; }
+
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(26,28,30,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--edge); }
+  nav .wrap { display: flex; align-items: center; gap: 22px; height: 60px; }
+  nav .brand { display: flex; align-items: center; gap: 10px; color: var(--fg); text-decoration: none; font-weight: 600; margin-right: auto; }
+  nav .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  nav a.link { color: var(--lbl); text-decoration: none; font-size: 14px; }
+  nav a.link:hover { color: var(--fg); }
+  nav .key { height: 36px; padding: 0 14px; font-size: 13px; }
+  @media (max-width: 720px) { nav a.link { display: none; } }
+
+  /* hero */
+  .hero { padding: 72px 0 40px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+  .hero h1 { font: 400 clamp(40px, 5.2vw, 64px)/1.04 var(--serif); margin: 10px 0 18px; letter-spacing: -0.01em; }
+  .hero h1 em { font-style: italic; color: var(--amber); }
+  .hero .lede { font-size: 19px; color: var(--lbl); margin: 0 0 26px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .cta small { display: block; width: 100%; color: var(--lbl); font-size: 13px; margin-top: 4px; }
+  .glass { position: relative; border-radius: 6px; background: #000; border: 1px solid #0a0b0b; box-shadow: 0 0 0 3px var(--metal), 0 0 0 4px #3a3f43, 0 40px 80px rgba(0,0,0,0.6); overflow: hidden; }
+  .glass img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .glass .cap { position: absolute; left: 12px; bottom: 10px; font: 500 10px var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--lbl); background: rgba(10,11,12,0.7); padding: 4px 8px; border-radius: 4px; }
+  .tally { position: absolute; right: 12px; top: 10px; display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 5px; background: rgba(10,11,12,0.85); font: 600 10px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--tally); }
+  .tally::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tally); box-shadow: 0 0 10px var(--tally); }
+  @media (max-width: 880px) { .hero { grid-template-columns: 1fr; padding-top: 44px; } }
+
+  /* strip of facts, LCD style */
+  .lcds { display: flex; gap: 10px; flex-wrap: wrap; padding: 28px 0 8px; }
+  .lcd { display: flex; flex-direction: column; min-width: 150px; padding: 8px 14px 9px; border-radius: 6px; background: var(--well); border: 1px solid #0a0b0b; box-shadow: inset 0 1px 4px rgba(0,0,0,0.9); }
+  .lcd b { font: 600 20px/1.2 var(--mono); color: var(--fg); margin-top: 3px; }
+  .lcd.amber b { color: var(--amber); text-shadow: 0 0 8px rgba(229,161,48,0.4); }
+
+  /* console section: screenshot of the control window */
+  section { padding: 72px 0; }
+  section + section { border-top: 1px solid var(--etch); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .two.flip > :first-child { order: 2; }
+  @media (max-width: 880px) { .two, .two.flip > :first-child { grid-template-columns: 1fr; order: 0; } }
+  .frame { border-radius: 10px; overflow: hidden; border: 1px solid var(--edge); box-shadow: 0 30px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05); background: var(--panel); }
+  .list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
+  .list li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; color: var(--lbl); }
+  .list li b { color: var(--fg); font-weight: 600; }
+  .list li i { display: inline-flex; width: 26px; height: 26px; border-radius: 6px; background: var(--amber-dim); border: 1px solid rgba(229,161,48,0.4); align-items: center; justify-content: center; font: 600 11px var(--mono); color: var(--amber); font-style: normal; }
+
+  /* features grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 26px; }
+  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 10px; padding: 18px 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+  .card h3 { margin: 8px 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--lbl); font-size: 15px; }
+
+  /* phone + tablet */
+  .devices { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: center; }
+  .phone { width: 300px; border-radius: 34px; padding: 10px; background: #0b0c0d; border: 1px solid #2a2e32; box-shadow: 0 30px 70px rgba(0,0,0,0.6), inset 0 0 0 2px #1a1c1e; }
+  .phone img { border-radius: 26px; }
+  @media (max-width: 880px) { .devices { grid-template-columns: 1fr; } .phone { margin: 0 auto; } }
+
+  /* paper section: pricing */
+  .paper { background: var(--paper); color: var(--ink); }
+  .paper h2, .paper .etch { color: var(--ink); }
+  .paper .etch.amber { color: #b4771c; }
+  .paper p { color: var(--ink2); }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 26px; max-width: 760px; }
+  .plan { background: #fbf9f4; border: 1px solid var(--rule); border-radius: 10px; padding: 22px 24px; box-shadow: 0 2px 0 rgba(0,0,0,0.08); }
+  .plan.pro { border-color: #b4771c; box-shadow: 0 0 0 1px #b4771c, 0 2px 0 rgba(0,0,0,0.08); }
+  .plan .price { font: 400 44px/1 var(--serif); margin: 8px 0 2px; color: var(--ink); }
+  .plan .price small { font: 500 13px var(--mono); color: var(--ink2); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 6px; }
+  .plan ul { margin: 14px 0 18px; padding-left: 18px; color: var(--ink2); }
+  .plan li { margin: 4px 0; }
+  .plan .key { width: 100%; }
+  .plan .key:not(.play) { background: #fff; color: var(--ink); border-color: var(--rule); box-shadow: none; }
+  @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
+
+  /* video */
+  .video { border-radius: 10px; overflow: hidden; border: 1px solid var(--edge); box-shadow: 0 30px 70px rgba(0,0,0,0.55); background: #000; margin-top: 26px; }
+  video { width: 100%; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--etch); padding: 36px 0 60px; color: var(--lbl); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; }
+  footer a { color: var(--lbl); text-decoration: none; }
+  footer a:hover { color: var(--fg); }
+  footer .spacer { flex: 1; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="img/icon.png" alt="">Just Prompt</a>
+    <a class="link" href="#console">The console</a>
+    <a class="link" href="#glass">On the glass</a>
+    <a class="link" href="#remote">Remote</a>
+    <a class="link" href="#pricing">Pricing</a>
+    <a class="link" href="support.html">Support</a>
+    <a class="key play" href="#download">Download free</a>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <div>
+    <span class="etch amber">Teleprompter for Mac and Windows</span>
+    <h1>Any screen is the prompter. Your phone is the <em>remote</em>.</h1>
+    <p class="lede">Just Prompt runs a mirror rig from a Mac or PC, puts the same script on an iPad or any tablet over Wi-Fi with no cable or extra app, and hands every control to your phone, a clicker, or the keyboard. One purchase, no subscription.</p>
+    <div class="cta" id="download">
+      <a class="key play" href="#pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Download for Mac</a>
+      <a class="key" href="#pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zm9-1.2L21 3v8.5h-9zM3 12.5h7.5v7L3 18.5zm9 0h9V21l-9-1.3z" fill="currentColor"/></svg>Download for Windows</a>
+      <small>Your first 3 scripts are free. One purchase unlocks unlimited scripts: $39.99 at launch, no subscription, no account.</small>
+    </div>
+  </div>
+  <div class="glass">
+    <img src="img/prompter-mirrored.png" alt="The prompter screen: large mirrored white text on black, an amber reading line, a timer in each top corner" width="1600" height="1000">
+    <span class="tally">On air</span>
+    <span class="cap">Prompter monitor · mirrored for the glass</span>
+  </div>
+</header>
+
+<div class="wrap lcds">
+  <div class="lcd amber"><span class="etch">Launch price</span><b>$39.99 once</b></div>
+  <div class="lcd"><span class="etch">Free</span><b>First 3 scripts</b></div>
+  <div class="lcd"><span class="etch">Platforms</span><b>Mac · Windows</b></div>
+  <div class="lcd"><span class="etch">Remote</span><b>Any phone</b></div>
+  <div class="lcd"><span class="etch">Second screen</span><b>Any tablet</b></div>
+</div>
+
+<section id="console">
+  <div class="wrap two">
+    <div>
+      <span class="etch amber">The console</span>
+      <h2>A script on paper, an instrument panel underneath.</h2>
+      <p class="muted">The control window puts the words where your eyes are: a light page in the middle, the transport keys below it, and the glass preview beside it so you can see the rig without walking round the camera.</p>
+      <ul class="list">
+        <li><i>01</i><div><b>Follow the prompter.</b> The paragraph being read is highlighted on the page as it goes, so you can fix a line without losing the place.</div></li>
+        <li><i>02</i><div><b>Prompter to cursor.</b> Click anywhere in the script, press ⌘J, and the glass jumps there. Find any word with ⌘F.</div></li>
+        <li><i>03</i><div><b>Markers.</b> A line starting with <code>//</code> becomes a divider you can jump between from the keyboard, the clicker, or the phone.</div></li>
+        <li><i>04</i><div><b>Import anything.</b> Text, Markdown, Word, and PDF, dropped on the window or opened from the Dock. Autosaves as you type.</div></li>
+      </ul>
+    </div>
+    <div class="frame"><img src="img/control.png" alt="The Just Prompt control window: script list, paper editor with position rail, transport keys and timers, and the glass preview with its settings" width="1600" height="1000"></div>
+  </div>
+</section>
+
+<section id="glass">
+  <div class="wrap two flip">
+    <div>
+      <span class="etch amber">On the glass</span>
+      <h2>Mirrored, masked, and timed. Built for the rig, not the webcam.</h2>
+      <p class="muted">Pick the display behind your beam-splitter and the text fills it, flipped to match your glass. A second monitor can carry the same script unmirrored for a confidence screen.</p>
+      <ul class="list">
+        <li><i>H V</i><div><b>Mirror either way.</b> Horizontal, vertical, or both, set separately for each screen.</div></li>
+        <li><i>—</i><div><b>Reading line and focus mask.</b> An amber line marks the row to read; the mask dims everything else.</div></li>
+        <li><i>3 2 1</i><div><b>Countdown and timers.</b> A countdown before the words move on a fresh take, a talk timer that runs only while you speak, a session timer, and the clock.</div></li>
+        <li><i>R</i><div><b>Reverse and page jumps.</b> Scroll backwards smoothly, or step by exactly one unread page.</div></li>
+      </ul>
+    </div>
+    <div class="frame"><img src="img/glass.png" alt="The Glass tab of the control window: display picker, reading line, focus mask, mirror switches, a second screen, and the tablet screen QR code" width="1600" height="1000"></div>
+  </div>
+</section>
+
+<section id="remote">
+  <div class="wrap devices">
+    <div class="phone"><img src="img/remote.png" alt="The phone remote: talk and session timers, a position slider, a large Play key, marker and page keys, speed and text-size steppers, and toggles" width="860" height="1900"></div>
+    <div>
+      <span class="etch amber">Remote and second screen</span>
+      <h2>Your phone is the remote. Your iPad is another prompter.</h2>
+      <p class="muted">Scan a code and any phone on your Wi-Fi becomes the remote: play, pause, speed, size, markers, reverse, and a position slider you can drag. Nothing to install.</p>
+      <p class="muted">Open a second address on an iPad, Android tablet, or spare laptop and it becomes a prompter screen that follows the main one, with its own mirror setting. No cable, no Sidecar, no extra app.</p>
+      <div class="grid" style="margin-top:20px">
+        <div class="card"><span class="etch">Clickers and pedals</span><h3>Press a button, see what it sent</h3><p>The key monitor shows what your USB clicker or foot pedal sends. One click makes it play and pause. Every shortcut is rebindable, including double-presses.</p></div>
+        <div class="card"><span class="etch">Hold to repeat</span><h3>Big changes in one press</h3><p>Hold Faster or A+ on the phone and it keeps stepping. Each key flashes and buzzes so you know it registered without looking.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="etch amber">Everything in the box</span>
+    <h2>What you get</h2>
+    <div class="grid">
+      <div class="card"><h3>Speed, size, margins, alignment</h3><p>Left, centred, right, or justified. Change the text size mid-read without losing your place.</p></div>
+      <div class="card"><h3>Keyboard shortcuts</h3><p>Space, arrows, Page keys, Home, R, F, L, [ and ]. All rebindable, with clicker presets.</p></div>
+      <div class="card"><h3>Scripts that stay put</h3><p>Saved on your computer, never uploaded. Word count and read time on every script.</p></div>
+      <div class="card"><h3>Second screen</h3><p>A confidence monitor or a second rig, from any display or any tablet.</p></div>
+      <div class="card"><h3>Position rail</h3><p>Drag to anywhere in the script. Ticks show your markers.</p></div>
+      <div class="card"><h3>Mac and Windows</h3><p>One license works on up to three of your own computers, either platform.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="pricing">
+  <div class="wrap">
+    <span class="etch amber">Pricing</span>
+    <h2>Free to try properly. One payment, then it's yours.</h2>
+    <p>Your first three scripts are free, with every feature, which is enough to run a real shoot. Unlocking removes the limit on your computer, forever. No subscription, no account, nothing collected.</p>
+    <div class="plans">
+      <div class="plan">
+        <span class="etch">Free</span>
+        <div class="price">$0</div>
+        <ul>
+          <li>Your first 3 scripts</li>
+          <li>Every feature: mirroring, markers, timers, remote, tablet screen</li>
+          <li>Mac and Windows</li>
+        </ul>
+        <a class="key" href="#download-links">Download</a>
+      </div>
+      <div class="plan pro">
+        <span class="etch amber">Unlimited</span>
+        <div class="price">$39.99<small>one time · launch price</small></div>
+        <ul>
+          <li>Unlimited scripts</li>
+          <li>Works on up to 3 of your computers</li>
+          <li>Free updates, no subscription</li>
+          <li>14-day refund, no questions</li>
+        </ul>
+        <a class="key play" href="#download-links">Unlock in the app</a>
+      </div>
+    </div>
+    <p style="margin-top:18px; font-size:14px">On the Mac App Store the unlock is an in-app purchase. On Windows and direct downloads it's a license key sent by email.</p>
+  </div>
+</section>
+
+<section id="download-links">
+  <div class="wrap">
+    <span class="etch amber">Get it</span>
+    <h2>Download</h2>
+    <div class="cta">
+      <a class="key play" href="https://apps.apple.com/">Mac App Store</a>
+      <a class="key" href="https://apps.microsoft.com/">Microsoft Store</a>
+      <a class="key" href="#">Direct download for Mac (.dmg)</a>
+      <a class="key" href="#">Direct download for Windows (.exe)</a>
+      <small>Mac: macOS 12 or later, Intel and Apple silicon. Windows: 64-bit Windows 10 or 11. Store links go live at launch.</small>
+    </div>
+    <div class="video">
+      <video controls preload="none" poster="img/howto-poster.jpg" src="img/howto.mp4" width="1920" height="1080"></video>
+    </div>
+    <p class="muted" style="margin-top:12px; font-size:14px">A four-minute tour of everything above.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jonathan Omoyeni</span>
+    <a href="support.html">Support</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:jonathan@compassrn.org">Contact</a>
+    <span class="spacer"></span>
+    <span class="etch">Just Prompt · v0.1</span>
+  </div>
+</footer>
+
+</body>
+</html>
