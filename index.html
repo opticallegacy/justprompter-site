@@ -49,7 +49,7 @@
   @media (max-width: 720px) { nav a.link { display: none; } }
 
   /* hero */
-  .hero { padding: 72px 0 40px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+  .hero { padding: 72px 24px 40px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
   .hero h1 { font: 400 clamp(40px, 5.2vw, 64px)/1.04 var(--serif); margin: 10px 0 18px; letter-spacing: -0.01em; }
   .hero h1 em { font-style: italic; color: var(--amber); }
   .hero .lede { font-size: 19px; color: var(--lbl); margin: 0 0 26px; }
@@ -63,7 +63,7 @@
   @media (max-width: 880px) { .hero { grid-template-columns: 1fr; padding-top: 44px; } }
 
   /* strip of facts, LCD style */
-  .lcds { display: flex; gap: 10px; flex-wrap: wrap; padding: 28px 0 8px; }
+  .lcds { display: flex; gap: 10px; flex-wrap: wrap; padding: 28px 24px 8px; }
   .lcd { display: flex; flex-direction: column; min-width: 150px; padding: 8px 14px 9px; border-radius: 6px; background: var(--well); border: 1px solid #0a0b0b; box-shadow: inset 0 1px 4px rgba(0,0,0,0.9); }
   .lcd b { font: 600 20px/1.2 var(--mono); color: var(--fg); margin-top: 3px; }
   .lcd.amber b { color: var(--amber); text-shadow: 0 0 8px rgba(229,161,48,0.4); }
@@ -131,7 +131,7 @@
     <a class="link" href="#remote">Remote</a>
     <a class="link" href="#pricing">Pricing</a>
     <a class="link" href="support.html">Support</a>
-    <a class="key play" href="#download">Download free</a>
+    <a class="key play" href="#download-links">Coming soon</a>
   </div>
 </nav>
 
@@ -139,11 +139,11 @@
   <div>
     <span class="etch amber">Teleprompter for Mac and Windows</span>
     <h1>Any screen is the prompter. Your phone is the <em>remote</em>.</h1>
-    <p class="lede">Just Prompter runs a mirror rig from a Mac or PC, puts the same script on an iPad or any tablet over Wi-Fi with no cable or extra app, and hands every control to your phone, a clicker, or the keyboard. One purchase, no subscription.</p>
+    <p class="lede">Just Prompter runs a mirror rig from a Mac or PC. It puts the same script on an iPad or any tablet over Wi-Fi, with no cable and no extra app. Every control is on your phone, a clicker, or the keyboard. One purchase, no subscription.</p>
     <div class="cta" id="download">
-      <a class="key play" href="#pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Download for Mac</a>
-      <a class="key" href="#pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zm9-1.2L21 3v8.5h-9zM3 12.5h7.5v7L3 18.5zm9 0h9V21l-9-1.3z" fill="currentColor"/></svg>Download for Windows</a>
-      <small>Your first 3 scripts are free. One purchase unlocks unlimited scripts: $39.99 at launch, no subscription, no account.</small>
+      <a class="key play" href="#download-links"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>Watch the 4-minute tour</a>
+      <a class="key" href="mailto:info@opticallegacy.com?subject=Tell%20me%20when%20Just%20Prompter%20launches">Tell me when it launches</a>
+      <small>Launching soon for Mac and Windows. Your first 3 scripts will be free. One purchase unlocks unlimited scripts: $39.99 at launch, no subscription, no account.</small>
     </div>
   </div>
   <div class="glass">
@@ -154,11 +154,11 @@
 </header>
 
 <div class="wrap lcds">
-  <div class="lcd amber"><span class="etch">Launch price</span><b>$39.99 once</b></div>
-  <div class="lcd"><span class="etch">Free</span><b>First 3 scripts</b></div>
-  <div class="lcd"><span class="etch">Platforms</span><b>Mac · Windows</b></div>
-  <div class="lcd"><span class="etch">Remote</span><b>Any phone</b></div>
-  <div class="lcd"><span class="etch">Second screen</span><b>Any tablet</b></div>
+  <div class="lcd amber"><span class="etch">Tablet screen</span><b>No cable</b></div>
+  <div class="lcd"><span class="etch">Phone remote</span><b>No app to install</b></div>
+  <div class="lcd"><span class="etch">Sign-in</span><b>No account</b></div>
+  <div class="lcd"><span class="etch">Your scripts</span><b>Never uploaded</b></div>
+  <div class="lcd"><span class="etch">Refunds</span><b>14 days, no questions</b></div>
 </div>
 
 <section id="console">
@@ -191,7 +191,7 @@
         <li><i>R</i><div><b>Reverse and page jumps.</b> Scroll backwards smoothly, or step by exactly one unread page.</div></li>
       </ul>
     </div>
-    <div class="frame"><img src="img/glass.png" alt="The Set up sheet of the control window, open on Screens: a second screen for a confidence monitor and the tablet screen QR code, with the reading line, focus mask, and mirror switches on the panel behind it" width="1600" height="1000"></div>
+    <div class="glass"><img src="img/prompter.png" alt="The prompter screen unmirrored, as a confidence monitor shows it: large white text on black with the amber reading line, a marker divider, and the talk timer, session timer, and clock along the top" width="1600" height="1000"><span class="cap">Confidence monitor · unmirrored</span></div>
   </div>
 </section>
 
@@ -213,7 +213,6 @@
 
 <section>
   <div class="wrap">
-    <span class="etch amber">Everything in the box</span>
     <h2>What you get</h2>
     <div class="grid">
       <div class="card"><h3>Speed, size, margins, alignment</h3><p>Left, centred, right, or justified. Change the text size mid-read without losing your place.</p></div>
@@ -240,7 +239,7 @@
           <li>Every feature: mirroring, markers, timers, remote, tablet screen</li>
           <li>Mac and Windows</li>
         </ul>
-        <a class="key" href="#download-links">Download</a>
+        <a class="key" href="#download-links">Coming soon</a>
       </div>
       <div class="plan pro">
         <span class="etch amber">Unlimited</span>
@@ -251,7 +250,7 @@
           <li>Free updates, no subscription</li>
           <li>14-day refund, no questions</li>
         </ul>
-        <a class="key play" href="#download-links">Unlock in the app</a>
+        <a class="key play" href="#download-links">Unlock in the app at launch</a>
       </div>
     </div>
     <p style="margin-top:18px; font-size:14px">On the Mac App Store the unlock is an in-app purchase. On Windows and direct downloads it's a license key sent by email.</p>
@@ -260,19 +259,15 @@
 
 <section id="download-links">
   <div class="wrap">
-    <span class="etch amber">Get it</span>
-    <h2>Download</h2>
-    <div class="cta">
-      <a class="key play" href="https://apps.apple.com/">Mac App Store</a>
-      <a class="key" href="https://apps.microsoft.com/">Microsoft Store</a>
-      <a class="key" href="#">Direct download for Mac (.dmg)</a>
-      <a class="key" href="#">Direct download for Windows (.exe)</a>
-      <small>Mac: macOS 12 or later, Intel and Apple silicon. Windows: 64-bit Windows 10 or 11. Store links go live at launch.</small>
-    </div>
+    <h2>Watch the tour</h2>
     <div class="video">
-      <video controls preload="none" poster="img/howto-poster.jpg" src="img/howto.mp4" width="1920" height="1080"></video>
+      <video controls preload="none" poster="img/howto-poster.jpg" width="1920" height="1080"><source src="img/howto.mp4" type="video/mp4"></video>
     </div>
-    <p class="muted" style="margin-top:12px; font-size:14px">A four-minute tour of everything above.</p>
+    <p class="muted" style="margin-top:12px; font-size:14px">Four minutes, everything above.</p>
+    <div class="cta" style="margin-top:22px">
+      <a class="key" href="mailto:info@opticallegacy.com?subject=Tell%20me%20when%20Just%20Prompter%20launches">Tell me when it launches</a>
+      <small>Coming to the Mac App Store, the Microsoft Store, and as a direct download. Mac: macOS 12 or later, Intel and Apple silicon. Windows: 64-bit Windows 10 or 11.</small>
+    </div>
   </div>
 </section>
 
@@ -283,7 +278,7 @@
     <a href="privacy.html">Privacy</a>
     <a href="mailto:info@opticallegacy.com">Contact</a>
     <span class="spacer"></span>
-    <span class="etch">Just Prompter · a product of Optical Legacy, LLC · v0.1</span>
+    <span class="etch">Just Prompter · a product of Optical Legacy, LLC</span>
   </div>
 </footer>
 
