@@ -57,6 +57,9 @@
   .cta small { display: block; width: 100%; color: var(--lbl); font-size: 13px; margin-top: 4px; }
   .glass { position: relative; border-radius: 6px; background: #000; border: 1px solid #0a0b0b; box-shadow: 0 0 0 3px var(--metal), 0 0 0 4px #3a3f43, 0 40px 80px rgba(0,0,0,0.6); overflow: hidden; }
   .glass img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .glass video { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+  .glass .still { display: none; }
+  @media (prefers-reduced-motion: reduce) { .glass video { display: none; } .glass .still { display: block; } }
   .glass .cap { position: absolute; left: 12px; bottom: 10px; font: 500 10px var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--lbl); background: rgba(10,11,12,0.7); padding: 4px 8px; border-radius: 4px; }
   .tally { position: absolute; right: 12px; top: 10px; display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 5px; background: rgba(10,11,12,0.85); font: 600 10px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--tally); }
   .tally::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tally); box-shadow: 0 0 10px var(--tally); }
@@ -147,9 +150,12 @@
     </div>
   </div>
   <div class="glass">
-    <img src="img/prompter-mirrored.png" alt="The prompter screen: large mirrored white text on black, an amber reading line, a timer in each top corner" width="1600" height="1000">
-    <span class="tally">On air</span>
-    <span class="cap">Prompter monitor · mirrored for the glass</span>
+    <video autoplay muted loop playsinline poster="img/hero-poster.png" width="1920" height="1200" aria-label="A 45-second silent tour: the prompter glass, a tablet joining the rig, and the phone remote">
+      <source src="img/hero.webm" type="video/webm">
+      <source src="img/hero.mp4" type="video/mp4">
+      <img src="img/prompter-mirrored.png" alt="The prompter screen: large mirrored white text on black, an amber reading line, a timer in each top corner" width="1600" height="1000">
+    </video>
+    <img class="still" src="img/hero-poster.png" alt="The prompter glass, mirrored, under the line: Any screen is the prompter." width="1920" height="1200">
   </div>
 </header>
 
