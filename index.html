@@ -111,6 +111,11 @@
   .plan .key:not(.play) { background: #fff; color: var(--ink); border-color: var(--rule); box-shadow: none; }
   @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
 
+  /* first-open steps */
+  .steps { list-style: none; counter-reset: step; padding: 0; margin: 12px 0 16px; display: grid; gap: 12px; max-width: 66ch; font-size: 15px; }
+  .steps li { counter-increment: step; display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; }
+  .steps li::before { content: counter(step); width: 26px; height: 26px; border-radius: 6px; background: var(--amber-dim); border: 1px solid rgba(229,161,48,0.4); display: flex; align-items: center; justify-content: center; font: 600 11px var(--mono); color: var(--amber); }
+
   /* video */
   .video { border-radius: 10px; overflow: hidden; border: 1px solid var(--edge); box-shadow: 0 30px 70px rgba(0,0,0,0.55); background: #000; margin-top: 26px; }
   video { width: 100%; }
@@ -273,10 +278,16 @@
       <a class="key play" href="https://github.com/opticallegacy/justprompter-site/releases/latest/download/JustPrompter-windows.exe">Download for Windows</a>
       <small>Mac: macOS 12 or later, Intel and Apple silicon. Windows: 64-bit Windows 10 or 11.</small>
     </div>
-    <h3 style="margin-top:28px">Opening it the first time</h3>
-    <p style="font-size:15px">Just Prompter is brand new, and its Apple and Microsoft signing is still being issued, so your computer asks you to confirm it the first time. It only takes a moment, and only once.</p>
-    <p style="font-size:15px"><strong>Mac:</strong> open the download and drag Just Prompter into Applications, then open it. When macOS says it could not verify the app, click <strong>Done</strong>. Open <strong>System Settings &rsaquo; Privacy &amp; Security</strong>, scroll down to where it says Just Prompter was blocked, click <strong>Open Anyway</strong>, and confirm with your password or Touch ID.</p>
-    <p style="font-size:15px"><strong>Windows:</strong> run the installer. If Windows shows &ldquo;Windows protected your PC&rdquo;, click <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
+    <h3 id="first-open" style="margin-top:28px">Opening it the first time</h3>
+    <p style="font-size:15px">Just Prompter is brand new, and our Apple developer account is still being approved. Until it is, macOS can't verify the app, so your Mac asks you to approve it the first time you open it. It takes about 20 seconds, and you only do it once.</p>
+    <p style="font-size:15px;margin-bottom:0"><strong>Mac:</strong></p>
+    <ol class="steps">
+      <li><div>Drag Just Prompter into Applications and open it. The first box has no Open button, so click <strong>Done</strong>.</div></li>
+      <li><div>Open <strong>System Settings &rsaquo; Privacy &amp; Security</strong> and scroll down to Security. Next to Just Prompter, click <strong>Open Anyway</strong>.</div></li>
+      <li><div>A new box pops up. Click <strong>Open Anyway</strong> again, not Move to Trash. If your Mac asks for your password or Touch ID, enter it.</div></li>
+    </ol>
+    <p class="muted" style="font-size:14px">On macOS 12 to 14 the wording is a little different, but the steps are the same.</p>
+    <p style="font-size:15px"><strong>Windows:</strong> Windows checks new apps the same way. Run the installer. If Windows shows &ldquo;Windows protected your PC&rdquo;, click <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
     <h2 id="tour" style="margin-top:40px">Watch the tour</h2>
     <div class="video">
       <video controls preload="none" poster="img/howto-poster.jpg" width="1920" height="1080"><source src="img/howto.mp4" type="video/mp4"></video>
